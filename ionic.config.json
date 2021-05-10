@@ -1,0 +1,7 @@
+{
+  "name": "my-terrarium",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "vue"
+}
