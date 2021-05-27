@@ -14,35 +14,31 @@
           <ion-label>Inicio</ion-label>
         </ion-item>
         <ion-item>
-          <ion-icon slot="start" :icon="thermometer">Temp</ion-icon>
-          <ion-label>Histórico Temperatura</ion-label>
-        </ion-item>
-        <ion-item>
-          <ion-icon slot="start" :icon="water"></ion-icon>
-          <ion-label>Histórico Humedad</ion-label>
+          <ion-icon slot="start" :icon="newspaper">Hist</ion-icon>
+          <ion-label>Históricos</ion-label>
         </ion-item>
       </ion-list>
     </ion-content>
     <ion-footer>
-      <ion-toolbar>
-        <ion-title id="footerTitle"></ion-title>
+      <ion-toolbar color="primary">
+        <ion-title></ion-title>
       </ion-toolbar>
     </ion-footer>
   </ion-menu>
   <ion-page id="menu">
     <ion-header>
-      <ion-toolbar>
+      <ion-toolbar mode="ios" color="secondary">
         <ion-buttons slot="start">
           <ion-menu-button></ion-menu-button>
         </ion-buttons>
-        <ion-title>{{ pageTitle }}</ion-title>
+        <ion-title id="pageTitle" slot ="start" >{{ pageTitle }}</ion-title>
       </ion-toolbar>
     </ion-header>
     <ion-content>
       <slot />
     </ion-content>
     <ion-footer>
-      <ion-toolbar>
+      <ion-toolbar color="secondary">
         <ion-title></ion-title>
       </ion-toolbar>
     </ion-footer>
@@ -65,7 +61,7 @@ import {
   IonMenuButton,
   IonLabel
 } from "@ionic/vue";
-import { home, thermometer, water } from "ionicons/icons";
+import { home, thermometer, water, newspaper } from "ionicons/icons";
 
 export default {
   props: ["page-title"],
@@ -86,31 +82,14 @@ export default {
 
   },
   data() {
-    return { home, thermometer, water };
+    return { home, thermometer, water,newspaper };
   },
 };
 </script>
 
 <style scoped>
-ion-content {
-  margin: 10px;
-}
-ion-menu-button {
-  color: black;
-}
-ion-label {
-  color: black;
-  font: bold;
-}
-#footerTitle{
-  background-color: #348954;
-}
-ion-title {
-  background-color: darkgoldenrod;
-}
-
-
-.toolbar-background{
-  background-color: #348954 !important;
-}
+  #pageTitle{
+    font:bolder;
+    font-size:120%
+  }
 </style>

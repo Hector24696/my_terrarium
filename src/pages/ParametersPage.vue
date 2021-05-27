@@ -46,24 +46,23 @@
         </ion-item>
       </form>
     </div>
-    <ion-item lines="none" id="datosSeleccionados">
-      <ion-label id="actualData" position="stacked"
-        >Temperatura Seleccionada</ion-label
-      >
-      <ion-label position="stacked">{{ temperatura }}</ion-label>
-    </ion-item>
-    <ion-item lines="none" id="datosSeleccionados">
-      <ion-label id="actualData" position="stacked"
-        >Humedad Seleccionada</ion-label
-      >
-      <ion-label position="stacked">{{ humedad }}</ion-label>
-    </ion-item>
+    <div id="allItems">
+      <ion-item position="stacked" lines="none" id="datosSeleccionados">
+        <ion-label class="actualData">Temperatura Seleccionada</ion-label>
+        <ion-label class="datos" position="fixed">{{ temperatura }} ºC</ion-label>
+      </ion-item>
+
+      <ion-item position="stacked" lines="none" id="datosSeleccionados">
+        <ion-label class="actualData">Humedad Seleccionada</ion-label>
+        <ion-label class="datos" position="fixed">{{ humedad }} %</ion-label>
+      </ion-item>
+    </div>
   </base-layout>
 </template>
 
 <script>
 import { IonItem, IonInput, IonLabel } from "@ionic/vue";
-const axios = require('axios').default;
+const axios = require("axios").default;
 export default {
   components: {
     IonItem,
@@ -78,7 +77,7 @@ export default {
       humedad: 0,
     };
   },
-  created(){
+  created() {
     this.getTemperatureFromDb();
   },
   methods: {
@@ -90,7 +89,6 @@ export default {
       } else {
         this.temperatura;
       }
-
     },
     sendHumidity(h) {
       h = h.slice(-2);
@@ -100,19 +98,29 @@ export default {
         this.humedad;
       }
     },
-    sendTemperatureToDb(){
-      axios.post('http://api_terrarium.test/add-new-temperature', {temperature : this.temperatura})
-        .then(data=>{console.log(data)})
-        .catch(error=>{console.log(error)})
-    },
-    getTemperatureFromDb(){
-      axios.get('http://api_terrarium.test/get-temperature')
-        .then(data=>{
-          console.log(data);
-          this.temperatura=data.data[0].temperature
+    sendTemperatureToDb() {
+      axios
+        .post("http://api_terrarium.test/add-new-temperature", {
+          temperature: this.temperatura,
         })
-        .catch(error=>{console.log(error)})
-    }
+        .then((data) => {
+          console.log(data);
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    },
+    getTemperatureFromDb() {
+      axios
+        .get("http://api_terrarium.test/get-temperature")
+        .then((data) => {
+          console.log(data);
+          this.temperatura = data.data[0].temperature;
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    },
   },
 };
 </script>
@@ -122,28 +130,40 @@ ion-input {
   text-align: center;
   align-self: left;
   background-color: lavender;
-  margin: 5px;
+  margin-top: 5px;
+  margin-bottom: 5px;
+  margin-left: 20px;
 }
-
 #boton {
   position: absolute;
   right: 0;
   margin: 20px;
 }
-ion-item {
-  padding: 5px;
-}
+
 #datosSeleccionados {
-  text-align: center;
   margin-top: 40px;
 }
-#actualData {
-  font: bold;
+.actualData {
+  font: bolder;
+  width: 100%;
+  margin: 5px;
 }
 .botones {
   color: white;
   border-radius: 8px;
   background-color: #348954;
   padding: 10px 24px;
+}
+
+ion-item {
+  margin: 10px;
+}
+#allItems {
+  margin-left: 20px;
+}
+.datos {
+  text-align: center;
+  background-color: lavender;
+  padding: 10px;
 }
 </style>
