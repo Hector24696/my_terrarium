@@ -1,73 +1,78 @@
 <template>
-  <base-layout page-title="my_terrarium">
-    <div id="formularios">
-      <form v-on:submit.prevent="onSubmit" name="temperature">
-        <ion-item style="margin-top: 10%" lines="none">
-          <div style="width:40%">
-            <ion-label>Temperatura (ºC)</ion-label>
-          </div>
-          <div>
-            <ion-input
-              v-model="temperature"
-              id="tmp"
-              required="true"
-              type="number"
-              min="15"
-              max="50"
-            ></ion-input>
-          </div>
-          <div id="boton">
-            <button class="botones" @click="sendTemperature(temperature)">
-              Enviar
-            </button>
-          </div>
+  <ion-page>
+    <base-layout page-title="my_terrarium">
+      <div id="formularios">
+        <form v-on:submit.prevent="onSubmit" name="temperature">
+          <ion-item style="margin-top: 10%" lines="none">
+            <div style="width:40%">
+              <ion-label>Temperatura (ºC)</ion-label>
+            </div>
+            <div>
+              <ion-input
+                v-model="temperature"
+                id="tmp"
+                required="true"
+                type="number"
+                min="15"
+                max="50"
+              ></ion-input>
+            </div>
+            <div id="boton">
+              <button class="botones" @click="sendTemperature(temperature)">
+                Enviar
+              </button>
+            </div>
+          </ion-item>
+        </form>
+        <form v-on:submit.prevent="onSubmit" name="humidity">
+          <ion-item lines="none">
+            <div style="width:40%">
+              <ion-label>Humedad (%)</ion-label>
+            </div>
+            <div>
+              <ion-input
+                v-model="humidity"
+                id="humidity"
+                required="true"
+                type="number"
+                min="20"
+                max="80"
+              ></ion-input>
+            </div>
+            <div id="boton">
+              <button class="botones" @click="sendHumidity(humidity)">
+                Enviar
+              </button>
+            </div>
+          </ion-item>
+        </form>
+      </div>
+      <div id="allItems">
+        <ion-item position="stacked" lines="none" id="datosSeleccionados">
+          <ion-label class="actualData">Temperatura Seleccionada</ion-label>
+          <ion-label class="datos" position="fixed"
+            >{{ temperatura }} ºC</ion-label
+          >
         </ion-item>
-      </form>
-      <form v-on:submit.prevent="onSubmit" name="humidity">
-        <ion-item lines="none">
-          <div style="width:40%">
-            <ion-label>Humedad (%)</ion-label>
-          </div>
-          <div>
-            <ion-input
-              v-model="humidity"
-              id="humidity"
-              required="true"
-              type="number"
-              min="20"
-              max="80"
-            ></ion-input>
-          </div>
-          <div id="boton">
-            <button class="botones" @click="sendHumidity(humidity)">
-              Enviar
-            </button>
-          </div>
-        </ion-item>
-      </form>
-    </div>
-    <div id="allItems">
-      <ion-item position="stacked" lines="none" id="datosSeleccionados">
-        <ion-label class="actualData">Temperatura Seleccionada</ion-label>
-        <ion-label class="datos" position="fixed">{{ temperatura }} ºC</ion-label>
-      </ion-item>
 
-      <ion-item position="stacked" lines="none" id="datosSeleccionados">
-        <ion-label class="actualData">Humedad Seleccionada</ion-label>
-        <ion-label class="datos" position="fixed">{{ humedad }} %</ion-label>
-      </ion-item>
-    </div>
-  </base-layout>
+        <ion-item position="stacked" lines="none" id="datosSeleccionados">
+          <ion-label class="actualData">Humedad Seleccionada</ion-label>
+          <ion-label class="datos" position="fixed">{{ humedad }} %</ion-label>
+        </ion-item>
+      </div>
+    </base-layout>
+  </ion-page>
 </template>
 
 <script>
-import { IonItem, IonInput, IonLabel } from "@ionic/vue";
+import { IonItem, IonInput, IonLabel, IonPage } from "@ionic/vue";
 const axios = require("axios").default;
 export default {
   components: {
     IonItem,
     IonInput,
     IonLabel,
+    IonPage
   },
   data() {
     return {
@@ -79,6 +84,7 @@ export default {
   },
   created() {
     this.getTemperatureFromDb();
+    this.getHumidityFromDb();
   },
   methods: {
     sendTemperature(t) {
@@ -94,14 +100,16 @@ export default {
       h = h.slice(-2);
       if (h <= 80 && h >= 20) {
         this.humedad = h;
+        this.sendHumidityToDb();
       } else {
         this.humedad;
       }
     },
     sendTemperatureToDb() {
       axios
-        .post("http://api_terrarium.test/add-new-temperature", {
-          temperature: this.temperatura,
+        .post("http://api_terrarium.test/add-new-parameter", {
+          value: this.temperatura,
+          name: "temperature",
         })
         .then((data) => {
           console.log(data);
@@ -110,12 +118,37 @@ export default {
           console.log(error);
         });
     },
-    getTemperatureFromDb() {
+    sendHumidityToDb() {
       axios
-        .get("http://api_terrarium.test/get-temperature")
+        .post("http://api_terrarium.test/add-new-parameter", {
+          value: this.humedad,
+          name: "humidity",
+        })
         .then((data) => {
           console.log(data);
-          this.temperatura = data.data[0].temperature;
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    },
+
+    getTemperatureFromDb() {
+      axios
+        .get("http://api_terrarium.test/get-parameter?name=temperature")
+        .then((data) => {
+          console.log(data);
+          this.temperatura = data.data[0].value;
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    },
+    getHumidityFromDb() {
+      axios
+        .get("http://api_terrarium.test/get-parameter?name=humidity")
+        .then((data) => {
+          console.log(data);
+          this.humedad = data.data[0].value;
         })
         .catch((error) => {
           console.log(error);
