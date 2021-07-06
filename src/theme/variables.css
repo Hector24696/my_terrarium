@@ -7,8 +7,8 @@ http://ionicframework.com/docs/theming/ */
   --ion-color-primary-rgb: 52, 137, 84;
   --ion-color-primary-contrast: #ffffff;
   --ion-color-primary-contrast-rgb: 255, 255, 255;
-  --ion-color-primary-shade: #2e794a;
-  --ion-color-primary-tint: #489565;
+  --ion-color-primary-shade: #348954;
+  --ion-color-primary-tint: #348954;
 
   --ion-color-secondary: #ad3d00;
   --ion-color-secondary-rgb: 173,61,0;
@@ -78,8 +78,8 @@ http://ionicframework.com/docs/theming/ */
     --ion-color-primary-rgb: 52, 137, 84;
     --ion-color-primary-contrast: #ffffff;
     --ion-color-primary-contrast-rgb: 255, 255, 255;
-    --ion-color-primary-shade: #2e794a;
-    --ion-color-primary-tint: #489565;
+    --ion-color-primary-shade: #348954;
+    --ion-color-primary-tint: #348954;
 
     --ion-color-secondary: #3dc2ff;
     --ion-color-secondary-rgb: 61, 194, 255;

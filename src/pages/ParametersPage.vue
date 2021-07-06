@@ -1,6 +1,6 @@
 <template>
   <ion-page>
-    <base-layout page-title="my_terrarium">
+    <base-layout page-title="Configuración del Terrario">
       <div id="formularios">
         <form v-on:submit.prevent="onSubmit" name="temperature">
           <ion-item style="margin-top: 10%" lines="none">
@@ -107,7 +107,7 @@ export default {
     },
     sendTemperatureToDb() {
       axios
-        .post("http://api_terrarium.test/add-new-parameter", {
+        .post("http://192.168.0.104:8080/add-new-parameter", {
           value: this.temperatura,
           name: "temperature",
         })
@@ -120,7 +120,7 @@ export default {
     },
     sendHumidityToDb() {
       axios
-        .post("http://api_terrarium.test/add-new-parameter", {
+        .post("http://192.168.0.104:8080/add-new-parameter", {
           value: this.humedad,
           name: "humidity",
         })
@@ -134,7 +134,7 @@ export default {
 
     getTemperatureFromDb() {
       axios
-        .get("http://api_terrarium.test/get-parameter?name=temperature")
+        .get("http://192.168.0.104:8080/get-parameter?name=temperature")
         .then((data) => {
           console.log(data);
           this.temperatura = data.data[0].value;
@@ -145,7 +145,7 @@ export default {
     },
     getHumidityFromDb() {
       axios
-        .get("http://api_terrarium.test/get-parameter?name=humidity")
+        .get("http://192.168.0.104:8080/get-parameter?name=humidity")
         .then((data) => {
           console.log(data);
           this.humedad = data.data[0].value;

@@ -9,7 +9,7 @@ const routes = [
   {
     path: "/my_terrarium",
     name: "my_terrarium",
-    component: () => import('@/pages/ParametersPage.vue')
+    component: () => import('@/pages/GeneralView.vue')
   },
   {
     path: "/parameter_historics/",
@@ -19,6 +19,14 @@ const routes = [
   {
     path:"/parameter_historics/:id",
     component: () => import('@/pages/HistoricDataPage.vue'),
+  },
+  {
+    path:"/actuator_page",
+    component: () => import('@/pages/ActuatorPage.vue'),
+  },
+  {
+    path:"/parameters_page",
+    component: () => import('@/pages/ParametersPage.vue'),
   },
   
 ];

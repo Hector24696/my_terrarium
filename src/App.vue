@@ -15,15 +15,22 @@
               <ion-icon slot="start" :icon="home"></ion-icon>
               <ion-label>Inicio</ion-label>
             </ion-item>
-
             <ion-item router-link="/parameter_historics">
               <ion-icon slot="start" :icon="newspaper"></ion-icon>
               <ion-label>Históricos</ion-label>
             </ion-item>
+            <ion-item router-link="/actuator_page">
+              <ion-icon slot="start" :icon="flash"></ion-icon>
+              <ion-label>Actuadores</ion-label>
+            </ion-item>
+            <ion-item router-link="/parameters_page">
+              <ion-icon slot="start" :icon="cog"></ion-icon>
+              <ion-label>Configuración</ion-label>
+            </ion-item>
           </ion-list>
         </ion-content>
         <ion-footer>
-          <ion-toolbar color="primary">
+          <ion-toolbar id="footer" color="primary">
             <ion-title></ion-title>
           </ion-toolbar>
         </ion-footer>
@@ -53,7 +60,7 @@ import {
 } from "@ionic/vue";
 import { defineComponent } from "vue";
 
-import { home, newspaper, arrowBack } from "ionicons/icons";
+import { home, newspaper, arrowBack,flash, cog } from "ionicons/icons";
 
 export default defineComponent({
   name: "App",
@@ -76,7 +83,20 @@ export default defineComponent({
   },
 
   data() {
-    return { home, newspaper, arrowBack };
+    return { home, newspaper, arrowBack,flash,cog };
   },
 });
 </script>
+<style scoped>
+
+#footer{
+  position: fixed;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  height: 4%;
+}
+ion-toolbar{
+  margin:0;
+}
+</style>
