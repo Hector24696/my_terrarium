@@ -153,6 +153,7 @@ ion-list {
 #listStyle {
   background-color: #348954;
   padding: 2px;
+  margin-bottom:10%;
 }
 #items {
   text-align: center;

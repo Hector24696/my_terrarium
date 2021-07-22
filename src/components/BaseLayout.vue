@@ -28,7 +28,7 @@
     </ion-toolbar>
   </ion-footer>
 </template>
-chevron-back-outline
+
 
 <script>
 import {

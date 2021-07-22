@@ -96,7 +96,5 @@ export default defineComponent({
   width: 100%;
   height: 4%;
 }
-ion-toolbar{
-  margin:0;
-}
+
 </style>
