@@ -110,7 +110,7 @@ export default {
     },
     getDataFromDb() {
       axios
-        .get("http://192.168.0.104:8080/get-historic?parametro=" + this.id)
+        .get("http://api_terrarium.test:8080/get-historic?parametro=" + this.id)
         .then((data) => {
           console.log(data);
           this.parameters = data.data;
@@ -123,7 +123,7 @@ export default {
       console.log(this.id);
       axios
         .delete(
-          "http://192.168.0.104:8080/delete-historic?parametro=" + this.id
+          "http://api_terrarium.test:8080/delete-historic?parametro=" + this.id
         )
         .then((data) => {
           console.log(data);

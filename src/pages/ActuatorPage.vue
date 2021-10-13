@@ -1,6 +1,11 @@
 <template>
   <ion-page>
     <base-layout page-title="Actuadores">
+     <div id="buttonGroup">
+        <ion-button  id="iconButton" @click="getActuators()">
+          <ion-icon :icon="refresh"></ion-icon>
+        </ion-button>
+      </div>
       <ion-list lines="full">
         <ion-item v-for="actuator in actuators" :key="actuator">
           <ion-label id="actuador">
@@ -20,21 +25,22 @@
 </template>
 <script>
 import { IonLabel, IonPage, IonList, IonItem, IonCheckbox } from "@ionic/vue";
+import {  refresh } from "ionicons/icons";
 const axios = require("axios").default;
 export default {
   components: { IonLabel, IonPage, IonList, IonItem, IonCheckbox },
   data() {
     return {
-      actuators: [],
+      actuators: [], refresh,
     };
   },
-  created() {
+  updated() {
     this.getActuators();
   },
   methods: {
     getActuators() {
       axios
-        .get("http://192.168.0.104:8080/get-actuators")
+        .get("http://api_terrarium.test:8080/get-actuators")
         .then((data) => {
           console.log(data);
           this.actuators = data.data;
@@ -62,5 +68,13 @@ ion-label {
 ion-list {
   padding-left: 10%;
   padding-right: 10%;
+}
+#iconButton {
+  margin-top: 4%;
+  margin-bottom: 2%;
+}
+#buttonGroup {
+  text-align: right;
+  margin-right: 5%;
 }
 </style>

@@ -1,6 +1,12 @@
 <template>
   <ion-page>
     <base-layout page-title="My Terrarium">
+      <div id="genericButton">
+        <ion-button color="secondary" @click="refreshTable()">
+          <ion-icon :icon="refresh" ></ion-icon>
+        </ion-button>
+      </div>
+
       <table id="tabla">
         <tr id="tituloTabla">
           <th class="param">Parámetro</th>
@@ -20,7 +26,7 @@
       </table>
 
       <div id="genericButton">
-        <ion-button color="secondary" item-right @click="getGraphData()">
+        <ion-button color="secondary" @click="getGraphData()">
           <ion-icon :icon="refresh"></ion-icon>
         </ion-button>
         <ion-button color="secondary" @click="deleteAllHistorics()">
@@ -34,8 +40,8 @@
               <ion-card-subtitle>Últimos 15 registros de</ion-card-subtitle>
               <ion-card-title>Temperatura</ion-card-title>
             </div>
-            <div id="boton">
-              <ion-button item-right @click="getTemperatureGraph()">
+            <div item-right id="boton">
+              <ion-button @click="getTemperatureGraph()">
                 <ion-icon :icon="refresh"></ion-icon>
               </ion-button>
               <ion-button @click="deleteTmpHistoric()">
@@ -59,12 +65,8 @@
               <ion-card-subtitle>Últimos 15 registros de</ion-card-subtitle>
               <ion-card-title>Humedad</ion-card-title>
             </div>
-            <div id="boton">
-              <ion-button
-                id="iconButton"
-                item-right
-                @click="getHumidityGraph()"
-              >
+            <div item-right id="boton">
+              <ion-button id="iconButton" @click="getHumidityGraph()">
                 <ion-icon :icon="refresh"></ion-icon>
               </ion-button>
               <ion-button id="iconButton" @click="deleteHumHistoric()">
@@ -115,7 +117,7 @@ export default defineComponent({
     IonIcon,
   },
 
-  created() {
+  updated() {
     this.getTemperatureFromDb();
     this.getHumidityFromDb();
     this.getTemperatureFromSensor();
@@ -180,11 +182,17 @@ export default defineComponent({
         },
       };
     },
+    refreshTable(){
+      this.getTemperatureFromDb();
+      this.getHumidityFromDb();
+      this.getTemperatureFromSensor();
+      this.getHumidityFromSensor();
+    },
     getGraphData() {
       this.getTemperatureGraph();
       this.getHumidityGraph();
     },
-    deleteAllHistorics(){
+    deleteAllHistorics() {
       this.deleteTmpHistoric();
       this.deleteHumHistoric();
     },
@@ -217,7 +225,7 @@ export default defineComponent({
     },
     getTemperatureFromDb() {
       axios
-        .get("http://192.168.0.104:8080/get-parameter?name=temperature")
+        .get("http://api_terrarium.test:8080/get-parameter?name=temperature")
         .then((data) => {
           console.log(data);
           this.temperatura = data.data[0].value;
@@ -228,7 +236,7 @@ export default defineComponent({
     },
     getHumidityFromDb() {
       axios
-        .get("http://192.168.0.104:8080/get-parameter?name=humidity")
+        .get("http://api_terrarium.test:8080/get-parameter?name=humidity")
         .then((data) => {
           console.log(data);
           this.humedad = data.data[0].value;
@@ -240,7 +248,7 @@ export default defineComponent({
 
     getTemperatureFromSensor() {
       axios
-        .get("http://192.168.0.104:8080/get-sensor-value?name=temperature")
+        .get("http://api_terrarium.test:8080/get-sensor-value?name=temperature")
         .then((data) => {
           console.log("temp");
           console.log(data);
@@ -252,7 +260,7 @@ export default defineComponent({
     },
     getHumidityFromSensor() {
       axios
-        .get("http://192.168.0.104:8080/get-sensor-value?name=humidity")
+        .get("http://api_terrarium.test:8080/get-sensor-value?name=humidity")
         .then((data) => {
           console.log("hum");
           console.log(data);
@@ -266,7 +274,7 @@ export default defineComponent({
     getTemperatureGraph() {
       this.stateTmp.isLoaded = false;
       axios
-        .get("http://192.168.0.104:8080/get-graphs?name=temperature")
+        .get("http://api_terrarium.test:8080/get-graphs?name=temperature")
         .then((data) => {
           console.log(data);
           this.stateTmp.chartData = this.fillData("Temperatura", data.data);
@@ -279,7 +287,7 @@ export default defineComponent({
     getHumidityGraph() {
       this.stateHum.isLoaded = false;
       axios
-        .get("http://192.168.0.104:8080/get-graphs?name=humidity")
+        .get("http://api_terrarium.test:8080/get-graphs?name=humidity")
         .then((data) => {
           console.log(data);
           this.stateHum.chartData = this.fillData("Humedad", data.data);
@@ -293,7 +301,7 @@ export default defineComponent({
       console.log(this.id);
       axios
         .delete(
-          "http://192.168.0.104:8080/delete-historic?parametro=temperatura"
+          "http://api_terrarium.test:8080/delete-historic?parametro=temperatura"
         )
         .then((data) => {
           console.log(data);
@@ -307,7 +315,7 @@ export default defineComponent({
     deleteHumHistoric() {
       console.log(this.id);
       axios
-        .delete("http://192.168.0.104:8080/delete-historic?parametro=humedad")
+        .delete("http://api_terrarium.test:8080/delete-historic?parametro=humedad")
         .then((data) => {
           console.log(data);
           this.parameters = [];

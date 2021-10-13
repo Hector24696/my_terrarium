@@ -5,7 +5,7 @@
         <ion-menu-button></ion-menu-button>
       </ion-buttons>
       <ion-title id="pageTitle" slot="start">{{ pageTitle }}</ion-title>
-
+      
       <ion-buttons id="backIcon" slot="end">
         <ion-button router-link="/parameter_historics">
           <ion-icon
